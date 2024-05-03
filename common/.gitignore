@@ -4,9 +4,9 @@ dist
 .dev.vars
 /.env
 /wrangler.toml
+package-lock.json
 
 # Change them to your taste:
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
 bun.lockb
