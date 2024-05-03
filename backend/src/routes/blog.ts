@@ -20,7 +20,7 @@ blogRouter.use("/*", async(c,next)=>{
     const user = await verify(authHeader, c.env.JWT_SECRET)
     if (user){
         c.set("userId", user.id);
-        next()
+        await next()
     }else{
         return c.json({
             message: "You are not authorized to access this content"
@@ -67,9 +67,22 @@ blogRouter.post('/', async(c) => {
         id:blog.id
     })
   })
-  
+
+
+  blogRouter.get('/bulk', async(c) => {
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+
+    const blogs = await prisma.post.findMany()
+    return c.json({
+        blogs
+    })
+  })
+
+
   blogRouter.get('/:id', async(c) => {
-    const body = await c.req.json();
+    const id =  c.req.param("id");
     const prisma = new PrismaClient({
       datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate())
@@ -77,7 +90,7 @@ blogRouter.post('/', async(c) => {
   try{
   const blog = await prisma.post.findFirst({
     where:{
-        id:body.id
+        id: id
     }
   })
     return c.json({
@@ -91,13 +104,3 @@ blogRouter.post('/', async(c) => {
 }
   })
   
-  blogRouter.get('/bulk', (c) => {
-    const prisma = new PrismaClient({
-        datasourceUrl: c.env.DATABASE_URL,
-    }).$extends(withAccelerate())
-
-    const blogs = prisma.post.findMany()
-    return c.json({
-        blogs
-    })
-  })
