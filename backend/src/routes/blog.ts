@@ -29,7 +29,7 @@ blogRouter.use("/*", async(c,next)=>{
             })
         }
     }catch(e){
-        e.status(403);
+        c.status(403);
         return c.json({
             message: "You are not authorized"
         })
