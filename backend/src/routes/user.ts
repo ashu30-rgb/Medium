@@ -3,7 +3,8 @@ import { PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate';
 import { sign } from 'hono/jwt';
 import { SignatureKey } from 'hono/utils/jwt/jws';
-import { signupInput } from '../zod';
+import { signupInput } from '@techbassh/medium-common';
+import { signinInput } from '@techbassh/medium-common';
 
 
 export const userRouter = new Hono<{
@@ -47,7 +48,7 @@ userRouter.post('/signup', async(c) => {
   
   userRouter.post('/signin', async(c) => {
     const body = await c.req.json();
-    const { success } = signupInput.safeParse(body);
+    const { success } = signinInput.safeParse(body);
     if(!success){
         c.status(411);
         return c.json({

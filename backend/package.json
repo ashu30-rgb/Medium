@@ -6,6 +6,7 @@
   "dependencies": {
     "@prisma/client": "^5.13.0",
     "@prisma/extension-accelerate": "^1.0.0",
+    "@techbassh/medium-common": "^1.0.0",
     "hono": "^4.2.9",
     "prisma": "^5.13.0",
     "zod": "^3.23.6"
